@@ -61,10 +61,10 @@ myManageHook numScreens = composeAll
 	 , className =? "Eclipse" <&&> isTransient <&&> isDialog <&&> title =? "       " --> unfloat
 	 , className =? "Eclipse" <&&> isTransient <&&> isDialog <&&> title =? "       " --> swapup
 	 , className =? "Eclipse" <&&> isTransient <&&> isDialog <&&> title =? "       " --> focusup
-	 , className =? "Thunderbird" <&&> isNotTransient --> doShift "3:mail"
+	 , className =? "Thunderbird" <&&> isNotTransient --> doShift "3:comm"
 	 , className =? "com-clcbio-framework-general-WorkbenchManagerImpl" --> doShift "7:clc"
-	 , className =? "Skype" --> doShift "8:comm"
-	 , className =? "Spotify" --> doShift "9:misc"
+	 , className =? "Skype" --> doShift "3:comm"
+	 , className =? "Spotify" --> doShift "9:audio"
 	 , manageDocks
 	 ]
 	 where unfloat = ask >>= doF . W.sink
@@ -76,7 +76,7 @@ myManageHook numScreens = composeAll
 
 -- Main configuration, override the defaults to your liking.
 myConfig numScreens = defaultConfig {
-           workspaces = ["1:dev-a", "2:dev-b", "3:mail","4:emacs", "5:web", "6:shell","7:clc","8:comm","9:misc","0"]
+           workspaces = ["1:dev-a", "2:dev-b", "3:comm","4:emacs", "5:web", "6:shell","7:clc","8:misc","9:audio","0"]
 	 , modMask = m
 	 , startupHook = setWMName "LG3D" 
 	 , manageHook = (myManageHook numScreens) <+> manageHook defaultConfig 
@@ -98,7 +98,7 @@ instance P.XPrompt Clcbio where
 
 clcbioJump =
 	   P.mkXPrompt Clcbio P.defaultXPConfig (P.mkComplFunFromList
-	   ["jira", "fisheye", "confluence", "ehour"]) startFocusClcbio
+	   ["jira", "fisheye", "confluence", "ehour", "jenkins-trunk", "jenkins-branch", "builds"]) startFocusClcbio
 
 startFocusClcbio s = do
 	    startFocus (browser ++ " https://intranet.clcbio.com/" ++ s) "5:web"
